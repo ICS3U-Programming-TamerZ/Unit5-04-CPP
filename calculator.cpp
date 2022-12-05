@@ -1,79 +1,71 @@
 // Copyright (c) 2022 Tamer Zreg All rights reserved.
 // .
 // Created by: Tamer Zreg
-// Date: Nov 28, 2022
-// Does basic math operations using operation signs and user input.
- 
+// Date : Nov.30, 2022
+// This program performs calculations on two numbers
+
+#include <math.h>
+
 #include <iostream>
- 
-float calcNum(char sign, float num1, float num2) {
-    // Defining local variables
-    float sumNum;
-    float diffNum;
-    float prodNum;
-    float quotNum;
-    float modNum;
-    // using a switch case to separate all the equations.
-    switch (sign) {
+
+double Calculate(double num1, double num2, char operation) {
+    switch (operation) {
         case '+':
-            sumNum = num1 + num2;
-            return sumNum;
-        case '-' :
-            diffNum = num1 - num2;
-            return diffNum;
-        case '/':
-            prodNum = num1 / num2;
-            return prodNum;
+            return num1 + num2;
+
+        case '-':
+            return num1 - num2;
+
         case '*':
-            quotNum = num1 * num2;
-            return quotNum;
+            return num1 * num2;
+
+        case '/':
+            return num1 / num2;
+
         case '%':
-            modNum = num % num2;
-            return modNum;
+            return fmod(num1, num2);
+
+        default:
+            return -1;
     }
 }
- 
+
 int main() {
-    // Defining variables.
-    char operSign;
-    float userNum1;
-    float userNum2;
-    float ansNum;
- 
-    // Telling the type of operation we can do.
-    std::cout << "Pick an operation sign (+, -, * , %, /): ";
-    std::cin >> operSign;
- 
-    // Error checking...
-    if (operSign == '-' || operSign == '+' ||
-        operSign == '/' || operSign == '*' || operSign == '%') {
-        try {
-            std::cout << "What is the first number?: ";
-            std::cin >> userNum1;
-            std::cout << "What is the second number?: ";
-            std::cin >> userNum2;
-        } catch (std::invalid_argument) {
-            std::cout << "Enter valid numbers.";
-        }
- 
-        // Output of every case/ operation.
- 
-        // Calling the calcNum function.
-        ansNum = calcNum(operSign, userNum1, userNum2);
-        if (operSign == '+') {
-            std::cout << userNum1 << " + " << userNum2 << " = " << ansNum;
-        } else if (operSign == '-') {
-            std::cout << userNum1 << " - " << userNum2 << " = " << ansNum;
-        } else if (operSign == '/') {
-            std::cout << userNum1 << " / " << userNum2 << " = " << ansNum;
-        } else if (operSign == '*') {
-            std::cout << userNum1 << " * " << userNum2 << " = " << ansNum;
-        } else if (operSign == '%') {
-            std::cout << userNum1 << " % " << userNum2 << " = " << ansNum;
-        // Error checking for the operation sign.
-        } else {
-            std::cout << "Invalid operation sign.";
-        }
+    // Declaring variables
+    char userOperation, wait;
+    std::string num1Str, num2Str;
+    double num1D, num2D, result;
+
+    // Gets two numbers from the user
+    std::cout << "Enter a number: ";
+    std::cin >> num1Str;
+    std::cout << "\nEnter a second number: ";
+    std::cin >> num2Str;
+
+    // Tries casting the two numbers to double
+    try {
+        num1D = std::stod(num1Str);
+        num2D = std::stod(num2Str);
+    } catch (...) {
+        std::cout << "You must enter a number for both inputs.";
+        std::cin >> wait;
+    }
+
+    // Gets the user's operation
+    std::cout << "\nOperations: +, -, *, /, %";
+    std::cout << "\nEnter an operation: ";
+    std::cin >> userOperation;
+
+    // Return value of Calculator() stored in result
+    result = Calculate(num1D, num2D, userOperation);
+
+    // Tells the user they did not enter a valid operation
+    if (result == -1) {
+        std::cout << userOperation << "is not a valid operation.";
+
+        // Displays the sum/product of the calculation
+    } else {
+        std::cout << num1D << userOperation << num2D;
+        std::cout << " = " << result << "\n";
     }
 }
- 
